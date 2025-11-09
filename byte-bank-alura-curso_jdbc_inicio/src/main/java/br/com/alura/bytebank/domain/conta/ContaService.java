@@ -18,7 +18,13 @@ public class ContaService {
     private Set<Conta> contas = new HashSet<>();
 
     public Set<Conta> listarContasAbertas() {
-        return contas;
+        Connection conn = connection.recuperarConexao();
+        return new ContaDAO(conn).listar();
+    }
+
+    public Set<Conta> listarContasAbertas(int numero) {
+        Connection conn = connection.recuperarConexao();
+        return new ContaDAO(conn).listar(numero);
     }
 
     public BigDecimal consultarSaldo(Integer numeroDaConta) {
@@ -30,6 +36,7 @@ public class ContaService {
         
         Connection conn = connection.recuperarConexao();
         new ContaDAO(conn).salvar(dadosDaConta);
+        
     }
 
     public void realizarSaque(Integer numeroDaConta, BigDecimal valor) {
